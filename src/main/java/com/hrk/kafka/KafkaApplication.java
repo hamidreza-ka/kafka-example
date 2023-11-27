@@ -1,10 +1,13 @@
 package com.hrk.kafka;
 
+import com.hrk.kafka.message.Message;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaTemplate;
+
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class KafkaApplication {
@@ -14,10 +17,10 @@ public class KafkaApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(KafkaTemplate<String, String> kafkaTemplate) {
+    CommandLineRunner commandLineRunner(KafkaTemplate<String, Message> kafkaTemplate) {
         return args -> {
             for (int i = 0; i < 100; i++)
-                kafkaTemplate.send("main", "hello kafka number " + i);
+                kafkaTemplate.send("main", new Message("hello kafka number " + i, LocalDateTime.now()));
         };
     }
 }
